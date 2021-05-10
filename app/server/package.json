@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "express server",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "nodemon --watch 'src/server.ts' --exec 'ts-node' src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RMorjane/simplon-devcloud-memes.git"
+  },
+  "author": "Morjane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RMorjane/simplon-devcloud-memes/issues"
+  },
+  "homepage": "https://github.com/RMorjane/simplon-devcloud-memes#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/express-fileupload": "^1.1.6",
+    "@types/multer": "^1.4.5",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-fileupload": "^1.2.1",
+    "multer": "^1.4.2"
+  }
+}
