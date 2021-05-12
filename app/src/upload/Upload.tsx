@@ -1,8 +1,4 @@
 import './Upload.css'
-import fs from 'fs'
-import stream from 'stream'
-import pkgcloud from 'pkgcloud'
-import { fileURLToPath } from 'url'
 
 export default function Upload() {
     var blobList: String[] = []
