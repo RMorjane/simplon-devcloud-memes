@@ -8,6 +8,7 @@ import {
 import './App.css';
 import './menu.js';
 import Upload from './upload/Upload'
+import UserLogin from './login/UserLogin'
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
                       <Delete />
                 </Route>
                 <Route path="/login">
-                      <Login />
+                      <UserLogin />
                 </Route>
                 <Route path="/logout">
                       <Logout />

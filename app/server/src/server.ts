@@ -1,9 +1,13 @@
-import express from 'express'
-import fileUpload from 'express-fileupload'
-import multer from 'multer'
 import fs from 'fs'
+import multer from 'multer'
+import express from 'express'
+import pkgcloud from 'pkgcloud'
+import fileUpload from 'express-fileupload'
+import endpoint from './endpoints.config'
+import bodyParser from 'body-parser'
 
 const app = express()
+
 app.use(fileUpload())
 
 const storage = multer.memoryStorage();
@@ -15,7 +19,15 @@ app.get('/',(req,res) => {
     res.send('welcome to the home page')
 })
 
-app.post('/upload',upload.single('image'),(req,res,next) => {
+app.get('/login',(req,res) => {
+    const login = req.body.username
+    const password = req.body.password
+    console.log(login)
+    console.log(password)
+    res.send(`${login} ${password}`)
+})
+
+app.post('/upload',upload.single('image'),(req,res,next: any) => {
     const files: any = req.files
     const fileList = files['image']
     console.log(fileList)
@@ -27,12 +39,40 @@ app.post('/upload',upload.single('image'),(req,res,next) => {
                 if(err){
                     console.log(err)
                 } else {
+                    uploadBlobStorage(filename,new String(endpoint.containerName).toString())
                     console.log(`file ${filename} uploaded successfully !!!`)
                 }
             })            
         }
-        res.send(`images received successfully !!!`)       
+        res.send(`images uploaded successfully !!!`)       
     }
 })
+
+async function uploadBlobStorage(filename: string,containerName: string){
+
+    var client = pkgcloud.storage.createClient({
+        provider: 'azure',
+        storageAccount: endpoint.storageAccountName,
+        storageAccessKey: endpoint.storageAccountKey
+    });
+      
+    var readStream = fs.createReadStream(filename);
+    var writeStream = client.upload({
+        container: containerName,
+        remote: filename
+    });
+      
+    writeStream.on('error', function (err) {
+        console.log("failed to upload file in azure storage : ",err);
+    });
+      
+    writeStream.on('success', function (file) {
+        console.log(file," uploaded successfully");
+        
+    });
+      
+    readStream.pipe(writeStream);
+
+};
 
 app.listen(port)
