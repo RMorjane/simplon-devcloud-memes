@@ -7,7 +7,7 @@ import endpoint from './endpoints.config'
 import bodyParser from 'body-parser'
 
 const app = express()
-
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(fileUpload())
 
 const storage = multer.memoryStorage();
@@ -15,19 +15,18 @@ const upload = multer({ storage: storage });
 
 const port = 4000
 
-app.get('/',(req,res) => {
+app.route('/').get( (req,res) => {
     res.send('welcome to the home page')
 })
 
-app.get('/login',(req,res) => {
-    const login = req.body.username
-    const password = req.body.password
-    console.log(login)
+app.route('/login').post( (req,res) => {
+    const {username,password} = req.body
+    console.log(username)
     console.log(password)
-    res.send(`${login} ${password}`)
+    res.send(`${username} ${password}`)
 })
 
-app.post('/upload',upload.single('image'),(req,res,next: any) => {
+app.route('/upload').post(upload.single('image'),(req,res,next: any) => {
     const files: any = req.files
     const fileList = files['image']
     console.log(fileList)
