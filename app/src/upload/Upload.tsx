@@ -1,3 +1,4 @@
+/*
 import './Upload.css'
 
 export default function Upload() {
@@ -34,3 +35,5 @@ export default function Upload() {
         </form>
     );
 }
+*/
+
